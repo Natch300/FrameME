@@ -163,6 +163,7 @@ function renderCanvas() {
   const canvasHeight = frameImage.naturalHeight;
   previewCanvas.width = canvasWidth;
   previewCanvas.height = canvasHeight;
+  previewCanvas.style.aspectRatio = `${canvasWidth} / ${canvasHeight}`;
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
   ctx.fillStyle = '#000';
