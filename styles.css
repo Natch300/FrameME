@@ -398,7 +398,6 @@ button:disabled {
 .canvas-shell {
   position: relative;
   width: 100%;
-  aspect-ratio: 3 / 4;
   border-radius: var(--radius-md);
   overflow: hidden;
   background: radial-gradient(circle at 50% 20%, rgba(63, 211, 214, 0.05), transparent 55%), var(--ink-deep);
@@ -1185,7 +1184,6 @@ input:focus-visible,
 
   .canvas-shell {
     min-height: 320px;
-    max-height: 65vh;
   }
 
   #previewCanvas {
@@ -1213,7 +1211,6 @@ input:focus-visible,
 
   .canvas-shell {
     min-height: 260px;
-    max-height: 60vh;
   }
 
   #previewCanvas {
