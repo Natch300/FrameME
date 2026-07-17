@@ -21,8 +21,7 @@
       </div>
       <div class="hero__meta">
         <a id="myFramesLink" href="my-frames.html" class="btn-ghost" hidden>My Frames</a>
-        <a href="upload.html" class="btn-ghost">Upload frame</a>
-        <a href="downloads.html" class="btn-ghost">History</a>
+        <a id="uploadFrameLink" href="upload.html" class="btn-ghost" hidden>Upload frame</a>
         <button id="authBtn" class="btn-ghost" type="button">Sign in</button>
       </div>
     </header>
@@ -117,6 +116,7 @@
     const searchInput = document.getElementById('searchInput');
     const searchCount = document.getElementById('searchCount');
     const myFramesLink = document.getElementById('myFramesLink');
+    const uploadFrameLink = document.getElementById('uploadFrameLink');
     const categoryFilter = document.getElementById('categoryFilter');
 
     let isSignUp = false;
@@ -130,10 +130,12 @@
         authBtn.textContent = 'Sign out';
         authBtn.onclick = signOut;
         myFramesLink.hidden = false;
+        uploadFrameLink.hidden = false;
       } else {
         authBtn.textContent = 'Sign in';
         authBtn.onclick = openAuthModal;
         myFramesLink.hidden = true;
+        uploadFrameLink.hidden = true;
       }
     }
 
