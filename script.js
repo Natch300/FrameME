@@ -170,6 +170,21 @@ function loadPhotoFromFile(file) {
         previewPlaceholder.style.display = 'grid';
         await frameReadyPromise;
       }
+      if (selectedFrame && frameImage && (!frameImage.complete || !frameImage.naturalWidth)) {
+        previewPlaceholder.textContent = 'Loading frame...';
+        previewPlaceholder.style.display = 'grid';
+        await new Promise((resolve) => {
+          const onLoad = () => {
+            frameImage.removeEventListener('load', onLoad);
+            resolve();
+          };
+          frameImage.addEventListener('load', onLoad);
+          setTimeout(() => {
+            frameImage.removeEventListener('load', onLoad);
+            resolve();
+          }, 10000);
+        });
+      }
       renderCanvas();
     };
     photoImage.onerror = (e) => {
