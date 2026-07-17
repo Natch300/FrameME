@@ -58,21 +58,17 @@ async function resolveSelectedFrame() {
     try {
       const { data, error } = await window.FrameMe.supabase
         .from('frames')
-        .select('id, name, src, category, is_public, user_id')
+        .select('id, name, src, category')
         .eq('id', frameId)
         .maybeSingle();
       if (!error && data) {
-        const currentUser = window.FrameMe?.currentUser || null;
-        const isOwner = currentUser && data.user_id === currentUser.id;
-        if (data.is_public || isOwner) {
-          selectedFrame = data;
-          return;
-        }
+        selectedFrame = data;
+        return;
       }
     } catch (error) {
       console.error('Failed to resolve shared frame:', error);
     }
-    previewPlaceholder.textContent = 'This template is private or no longer available.';
+    previewPlaceholder.textContent = 'This template is no longer available.';
     previewPlaceholder.style.display = 'grid';
     selectedFrame = null;
     return;
