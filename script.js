@@ -218,18 +218,6 @@ function renderCanvas() {
   let canvasWidth = hasFrame ? frameImage.naturalWidth : photoImage.naturalWidth;
   let canvasHeight = hasFrame ? frameImage.naturalHeight : photoImage.naturalHeight;
 
-  if (hasFrame && hasPhoto) {
-    const photoAspect = photoImage.naturalWidth / photoImage.naturalHeight;
-    const frameAspect = frameImage.naturalWidth / frameImage.naturalHeight;
-    if (photoAspect > frameAspect) {
-      canvasWidth = frameImage.naturalWidth;
-      canvasHeight = frameImage.naturalHeight;
-    } else {
-      canvasWidth = photoImage.naturalWidth;
-      canvasHeight = photoImage.naturalHeight;
-    }
-  }
-
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   const maxDim = isMobile ? 2048 : 4096;
   if (canvasWidth > maxDim || canvasHeight > maxDim) {
