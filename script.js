@@ -228,10 +228,6 @@ function renderCanvas() {
   }
   previewCanvas.width = canvasWidth;
   previewCanvas.height = canvasHeight;
-  const canvasShell = previewCanvas.parentElement;
-  if (canvasShell) {
-    canvasShell.style.aspectRatio = `${canvasWidth} / ${canvasHeight}`;
-  }
 
   const drawFrame = () => {
     ctx.clearRect(0, 0, canvasWidth, canvasHeight);
