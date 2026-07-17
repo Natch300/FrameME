@@ -483,11 +483,23 @@ downloadBtn.addEventListener('click', async () => {
   if (downloadBtn.disabled) return;
   renderCanvas();
   try {
-    const dataUrl = previewCanvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = 'framed-photo.png';
-    link.click();
+    const blob = await new Promise(resolve => previewCanvas.toBlob(resolve, 'image/png'));
+    if (!blob) {
+      throw new Error('Unable to create image blob.');
+    }
+    const url = URL.createObjectURL(blob);
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    if (isIOS) {
+      window.open(url, '_blank');
+    } else {
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'framed-photo.png';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     const user = window.FrameMe?.currentUser || null;
     if (user && selectedFrame) {
@@ -504,7 +516,7 @@ downloadBtn.addEventListener('click', async () => {
     }
   } catch (error) {
     console.error('Download failed:', error);
-    previewPlaceholder.textContent = 'Download failed. The frame image may be blocked by the browser. Try downloading again after the preview loads.';
+    previewPlaceholder.textContent = 'Download failed. Try again after the preview loads, or use a different browser.';
     previewPlaceholder.style.display = 'grid';
   }
 });
