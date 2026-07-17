@@ -14,6 +14,7 @@ const undoBtn = document.getElementById('undoBtn');
 const redoBtn = document.getElementById('redoBtn');
 const authBtn = document.getElementById('authBtn');
 const authModal = document.getElementById('authModal');
+const resultModal = document.getElementById('resultModal');
 const authForm = document.getElementById('authForm');
 const authEmail = document.getElementById('authEmail');
 const authPassword = document.getElementById('authPassword');
@@ -238,12 +239,20 @@ function openAuthModal() {
   authEmail.focus();
 }
 
+function closeModal(modalId) {
+  const modal = document.getElementById(modalId);
+  if (!modal) return;
+  modal.classList.remove('modal--open');
+  modal.setAttribute('aria-hidden', 'true');
+  if (modalId === 'authModal') {
+    authError.textContent = '';
+    socialError.textContent = '';
+    authForm.reset();
+  }
+}
+
 function closeAuthModal() {
-  authModal.classList.remove('modal--open');
-  authModal.setAttribute('aria-hidden', 'true');
-  authError.textContent = '';
-  socialError.textContent = '';
-  authForm.reset();
+  closeModal('authModal');
 }
 
 function setAuthError(message) {
@@ -492,18 +501,15 @@ downloadBtn.addEventListener('click', async () => {
       throw new Error('Unable to create image blob.');
     }
     const url = URL.createObjectURL(blob);
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isIOS) {
-      window.open(url, '_blank');
-    } else {
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'framed-photo.png';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+    const resultImage = document.getElementById('resultImage');
+    const resultDownload = document.getElementById('resultDownload');
+    const resultModal = document.getElementById('resultModal');
+    if (resultImage) resultImage.src = url;
+    if (resultDownload) resultDownload.href = url;
+    if (resultModal) {
+      resultModal.classList.add('modal--open');
+      resultModal.setAttribute('aria-hidden', 'false');
     }
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     const user = window.FrameMe?.currentUser || null;
     if (user && selectedFrame) {
@@ -518,9 +524,10 @@ downloadBtn.addEventListener('click', async () => {
         .update({ usage_count: newCount })
         .eq('name', selectedFrame.name);
     }
+    setTimeout(() => URL.revokeObjectURL(url), 60000);
   } catch (error) {
     console.error('Download failed:', error);
-    previewPlaceholder.textContent = 'Download failed. Try again after the preview loads, or use a different browser.';
+    previewPlaceholder.textContent = 'Download failed. Try again after the preview loads.';
     previewPlaceholder.style.display = 'grid';
   }
 });
@@ -544,8 +551,8 @@ shareFrameBtn.addEventListener('click', () => {
   });
 });
 
-document.querySelectorAll('[data-close="authModal"]').forEach(el => {
-  el.addEventListener('click', closeAuthModal);
+document.querySelectorAll('[data-close="authModal"], [data-close="resultModal"]').forEach(el => {
+  el.addEventListener('click', () => closeModal(el.dataset.close));
 });
 
 authTabs.forEach(tab => {
@@ -574,9 +581,16 @@ authModal.addEventListener('click', (event) => {
   if (event.target === authModal) closeAuthModal();
 });
 
+resultModal.addEventListener('click', (event) => {
+  if (event.target === resultModal) closeModal('resultModal');
+});
+
 document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape' && authModal.classList.contains('modal--open')) {
-    closeAuthModal();
+  if (event.key === 'Escape') {
+    const authOpen = authModal && authModal.classList.contains('modal--open');
+    const resultOpen = resultModal && resultModal.classList.contains('modal--open');
+    if (authOpen) closeAuthModal();
+    else if (resultOpen) closeModal('resultModal');
   }
 });
 

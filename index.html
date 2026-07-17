@@ -113,6 +113,21 @@
     </footer>
   </div>
 
+  <div id="resultModal" class="modal" aria-hidden="true">
+    <div class="modal__backdrop" data-close="resultModal"></div>
+    <div class="modal__dialog modal__dialog--result" role="dialog" aria-modal="true" aria-labelledby="resultModalTitle">
+      <div class="modal__head">
+        <h2 id="resultModalTitle">Your framed photo</h2>
+        <button class="modal__close" data-close="resultModal" aria-label="Close">×</button>
+      </div>
+      <div class="result-body">
+        <img id="resultImage" alt="Framed photo" />
+        <p class="result-hint">Long-press the image and choose <strong>Save to Photos</strong> to download it.</p>
+        <a id="resultDownload" class="btn-primary" download="framed-photo.png">Download</a>
+      </div>
+    </div>
+  </div>
+
   <div id="authModal" class="modal" aria-hidden="true">
     <div class="modal__backdrop" data-close="authModal"></div>
     <div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">

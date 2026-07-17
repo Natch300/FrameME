@@ -831,6 +831,32 @@ button:disabled {
   box-shadow: none;
 }
 
+.modal__dialog--result {
+  max-width: 520px;
+}
+
+.result-body {
+  display: grid;
+  gap: 14px;
+}
+
+.result-body img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: #000;
+}
+
+.result-hint {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 /* ---------- Auth form ---------- */
 
 .auth-form {
