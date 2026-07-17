@@ -1108,6 +1108,18 @@ button:disabled {
   color: var(--text);
 }
 
+.site-footer a {
+  color: var(--text-dim);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.site-footer a:hover {
+  color: var(--cyan);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* ---------- Focus states ---------- */
 
 a:focus-visible,
